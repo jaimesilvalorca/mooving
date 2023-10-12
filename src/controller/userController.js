@@ -1,8 +1,10 @@
 import userModel from "../models/usersModel.js";
+import { createHash } from "../utils/hashPassword.js";
 
 export const Register = async (req, res) => {
     try {
         const user = req.body;
+        user.password = createHash(user.password)
         const userAdded = await userModel.create(user);
         res.status(201).json({
             success: true,
