@@ -2,7 +2,7 @@
   "name": "moovit",
   "version": "1.0.0",
   "description": "backend de moovit",
-  "main": "src/server.js",
+  "main": "src/app.js",
   "type": "module",
   "scripts": {
     "start": "node .",
