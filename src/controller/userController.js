@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import UserModel from '../models/usersModel.js';
 import dotenv from 'dotenv'
+// import RolesModel from "../models/rolesModel.js";
 
 dotenv.config()
 
@@ -30,6 +31,7 @@ export const Login = async (req, res) => {
         email:user.email,
         phone:user.phone,
         image:user.image,
+        role:user.role,
         session_token: `JWT ${token}`
       }
       return res.json({
@@ -48,8 +50,20 @@ export const Login = async (req, res) => {
 
 export const Register = async (req, res) => {
     try {
+        // const {name,lastname,email,phone,password} = req.body   
         const user = req.body;
         user.password = createHash(user.password)
+        // const rolesForNewUser = await RolesModel.create({})
+
+        // const newUser = {
+        //   name,
+        //   lastname,
+        //   email,
+        //   phone,
+        //   password: createHash(password),
+        //   roles: rolesForNewUser._id,
+        // }1
+        // const result = await userModel.create(newUser)        
         const userAdded = await userModel.create(user);
         res.status(201).json({
             success: true,
