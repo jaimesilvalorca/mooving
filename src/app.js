@@ -6,7 +6,9 @@ import mongoose from "mongoose"
 import MongoClient from "./config/config.js"
 import userRoutes from './routes/userRoutes.js'
 import passport from 'passport';
-import passportConfig from './config/passportConfig.js'; 
+import passportConfig from './config/passportConfig.js';
+import multer from "multer";
+
 
 
 
@@ -29,6 +31,10 @@ app.use(express.urlencoded({
 app.use(cors())
 app.disable('x-powered-by')
 app.set('port',port);
+
+const upload = multer({
+    storage: multer.memoryStorage()
+})
 
 app.use('/api/users',userRoutes)
 

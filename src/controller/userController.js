@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import UserModel from '../models/usersModel.js';
 import dotenv from 'dotenv'
+import storage from '../utils/cloud_storage.js'
 
 dotenv.config()
 
@@ -63,6 +64,36 @@ export const Register = async (req, res) => {
             error: err
         });
     }
+}
+
+export const RegisterWithImage = async (req, res) => {
+  try {
+      const user = JSON.parse(req.body.user);
+      const files = req.files
+
+      if(files.length > 0){
+        const path = `image_${Date.now()}`;
+        const url = await storage(files[0], path);
+
+        if(url != undefined && url != null){
+          user.image = url
+        }
+      }
+
+      user.password = createHash(user.password)
+      const userAdded = await userModel.create(user);
+      res.status(201).json({
+          success: true,
+          message: 'El registro se realizó correctamente',
+          data: userAdded
+      });
+  } catch (err) {
+      res.status(500).json({
+          success: false,
+          message: 'Hubo un error con el registro del usuario',
+          error: err
+      });
+  }
 }
 
 
