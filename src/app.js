@@ -5,6 +5,9 @@ import cors from 'cors'
 import mongoose from "mongoose"
 import MongoClient from "./config/config.js"
 import userRoutes from './routes/userRoutes.js'
+import passport from 'passport';
+import passportConfig from './config/passportConfig.js'; 
+
 
 
 const app = express()
@@ -16,7 +19,8 @@ let client = new MongoClient()
 mongoose.set('strictQuery', false)
 
 
-
+app.use(passport.initialize());
+passportConfig(passport);
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({
