@@ -21,7 +21,7 @@ export const Login = async (req, res) => {
 
     if (isPasswordValid) {
       const token = jwt.sign({ id: user._id, email: user.email }, process.env.JWT_PRIVATE_KEY, {
-        expiresIn: '1h',
+        expiresIn: '24h',
       });
       const data = {
         id:user._id,
