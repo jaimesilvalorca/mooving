@@ -32,7 +32,7 @@ export const Login = async (req, res) => {
         phone:user.phone,
         image:user.image,
         role:user.role,
-        session_token: `JWT ${token}`
+        session_token: `JWT ${token}`,
       }
       return res.json({
         success: true, 
