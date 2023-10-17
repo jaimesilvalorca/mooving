@@ -58,7 +58,10 @@ export const Register = async (req, res) => {
 
         if (existingUser) {
             console.log("usuario ya registrado")
-            return res.status(409).json({ message: 'El correo ya está registrado' });
+            return res.status(409).json({ 
+              message: 'El correo ya está registrado',
+              email: false
+             });
         }
         // const rolesForNewUser = await RolesModel.create({})
 
