@@ -55,10 +55,9 @@ export const Register = async (req, res) => {
         user.password = createHash(user.password)
 
         const existingUser = await userModel.findOne({ email: user.email });
-        console.log(existingUser)
 
         if (existingUser) {
-            // Si ya existe un usuario con ese correo, envía una respuesta 409 (Conflict).
+            console.log("usuario ya registrado")
             return res.status(409).json({ message: 'El correo ya está registrado' });
         }
         // const rolesForNewUser = await RolesModel.create({})
