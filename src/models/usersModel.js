@@ -14,7 +14,7 @@ const userSchema = new mongoose.Schema({
     password: String,
     role:{
         type:String,
-        default: null
+        default: 'user'
     },
     // roles:{
     //         type: mongoose.Schema.Types.ObjectId,
