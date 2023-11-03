@@ -1,6 +1,5 @@
 import chai from 'chai'
 import chaiHttp from 'chai-http'
-//import supertest from 'supertest'
 import app from '../app.js'
 import UserModel from '../models/usersModel.js'
 
