@@ -13,13 +13,13 @@ export const Login = async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    const user = await UserModel.findOne({ email });
+    const user = await UserModel.findOne({ email })
 
     if (!user) {
-      return res.status(401).json({ message: 'Usuario no encontrado' });
+      return res.status(401).json({ message: 'Usuario no encontrado' })
     }
 
-    const isPasswordValid = await bcrypt.compare(password, user.password);
+    const isPasswordValid = await bcrypt.compare(password, user.password)
 
     if (isPasswordValid) {
       const token = jwt.sign({ id: user._id, email: user.email }, process.env.JWT_PRIVATE_KEY, {
@@ -41,10 +41,10 @@ export const Login = async (req, res) => {
         data: data
       });
     } else {
-      return res.status(401).json({ message: 'Contraseña incorrecta' });
+      return res.status(401).json({ message: 'Contraseña incorrecta' })
     }
   } catch (err) {
-    return res.status(500).json({ message: 'Hubo un error', error: err });
+    return res.status(500).json({ message: 'Hubo un error', error: err })
   }
 };
 
@@ -54,7 +54,8 @@ export const Register = async (req, res) => {
     const user = req.body;
     user.password = createHash(user.password)
 
-    const existingUser = await userModel.findOne({ email: user.email });
+    const existingUser = await userModel.findOne({ email: user.email })
+    
 
     if (existingUser) {
       console.log("usuario ya registrado")
@@ -95,7 +96,16 @@ export const RegisterWithImage = async (req, res) => {
           message: 'El correo ya está registrado',
           email_: false
         });
+
       }
+      
+      const token = jwt.sign(
+        { email: user.email },
+        process.env.JWT_PRIVATE_KEY,
+        {
+          expiresIn: '24h',
+        }
+      );
 
       const newUser = await new UserModel({
         email: user.email,
@@ -106,21 +116,20 @@ export const RegisterWithImage = async (req, res) => {
         password: user.password,
       }).save()
 
-     
-
-      const token = jwt.sign({ id: newUser._id, email: newUser.email }, process.env.JWT_PRIVATE_KEY, {
-        expiresIn: '24h',
-      });
-
-      newUser.session_token = `JWT ${token}`
-
-      await newUser.save()
-
+      const userWithToken = {
+        email: newUser.email,
+        name: newUser.name,
+        lastname: newUser.lastname,
+        phone: newUser.phone,
+        image: downloadURL,
+        password: newUser.password,
+        session_token: `JWT ${token}`
+      }
 
       return res.status(201).json({
         success: true,
         message: 'El registro se realizó correctamente',
-        data: newUser
+        data: userWithToken
       });
 
     }
