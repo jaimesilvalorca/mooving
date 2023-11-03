@@ -51,7 +51,6 @@ export const Login = async (req, res) => {
 
 export const Register = async (req, res) => {
   try {
-    // const {name,lastname,email,phone,password} = req.body   
     const user = req.body;
     user.password = createHash(user.password)
 
@@ -64,17 +63,7 @@ export const Register = async (req, res) => {
         email_: false
       });
     }
-    // const rolesForNewUser = await RolesModel.create({})
 
-    // const newUser = {
-    //   name,
-    //   lastname,
-    //   email,
-    //   phone,
-    //   password: createHash(password),
-    //   roles: rolesForNewUser._id,
-    // }1
-    // const result = await userModel.create(newUser)        
     const userAdded = await userModel.create(user);
     res.status(201).json({
       success: true,
@@ -92,7 +81,6 @@ export const Register = async (req, res) => {
 
 export const RegisterWithImage = async (req, res) => {
   try {
-    // const {name,lastname,email,phone,password} = req.body   
     const user = req.body;
     const image = req.files.image
     user.password = createHash(user.password)
@@ -115,9 +103,19 @@ export const RegisterWithImage = async (req, res) => {
         lastname: user.lastname,
         phone: user.phone,
         image: downloadURL,
-        password: user.password
-
+        password: user.password,
       }).save()
+
+     
+
+      const token = jwt.sign({ id: newUser._id, email: newUser.email }, process.env.JWT_PRIVATE_KEY, {
+        expiresIn: '24h',
+      });
+
+      newUser.session_token = `JWT ${token}`
+
+      await newUser.save()
+
 
       return res.status(201).json({
         success: true,
@@ -126,20 +124,6 @@ export const RegisterWithImage = async (req, res) => {
       });
 
     }
-
-
-    // const rolesForNewUser = await RolesModel.create({})
-
-    // const newUser = {
-    //   name,
-    //   lastname,
-    //   email,
-    //   phone,
-    //   password: createHash(password),
-    //   roles: rolesForNewUser._id,
-    // }1
-    // const result = await userModel.create(newUser)        
-
   } catch (err) {
     res.status(500).json({
       success: false,
