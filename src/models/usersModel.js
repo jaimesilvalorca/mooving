@@ -16,10 +16,10 @@ const userSchema = new mongoose.Schema({
         type:String,
         default: 'user'
     },
-    // roles:{
-    //         type: mongoose.Schema.Types.ObjectId,
-    //         ref: "roles"
-    //     },
+    session_token:{
+        type:String,
+        default: null
+    },
     created_at: {
         type: Date,
         default: Date.now,
@@ -27,8 +27,7 @@ const userSchema = new mongoose.Schema({
     updated_at: {
         type: Date,
         default: Date.now,
-    },
-    session_token:String
+    }
 });
 
 mongoose.set("strictQuery", false);
