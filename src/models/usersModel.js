@@ -27,7 +27,8 @@ const userSchema = new mongoose.Schema({
     updated_at: {
         type: Date,
         default: Date.now,
-    }
+    },
+    session_token:String
 });
 
 mongoose.set("strictQuery", false);
