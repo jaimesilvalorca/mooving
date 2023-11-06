@@ -117,6 +117,7 @@ export const RegisterWithImage = async (req, res) => {
       }).save()
 
       const data = {
+        id: newUser._id,
         email: newUser.email,
         name: newUser.name,
         lastname: newUser.lastname,
