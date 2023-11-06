@@ -116,7 +116,7 @@ export const RegisterWithImage = async (req, res) => {
         password: user.password,
       }).save()
 
-      const userWithToken = {
+      const data = {
         email: newUser.email,
         name: newUser.name,
         lastname: newUser.lastname,
@@ -129,7 +129,7 @@ export const RegisterWithImage = async (req, res) => {
       return res.status(201).json({
         success: true,
         message: 'El registro se realizó correctamente',
-        data: userWithToken
+        data: data
       });
 
     }
