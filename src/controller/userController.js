@@ -114,6 +114,7 @@ export const RegisterWithImage = async (req, res) => {
         phone: user.phone,
         image: downloadURL,
         password: user.password,
+        role:user.role
       }).save()
 
       const data = {
@@ -124,6 +125,7 @@ export const RegisterWithImage = async (req, res) => {
         phone: newUser.phone,
         image: downloadURL,
         password: newUser.password,
+        role:newUser.role,
         session_token: `JWT ${token}`
       }
 
