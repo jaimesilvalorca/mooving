@@ -7,6 +7,7 @@ import MongoClient from "./config/config.js"
 import userRoutes from './routes/userRoutes.js'
 import passport from 'passport';
 import passportConfig from './config/passportConfig.js';
+import driverRoutes from './routes/driverRouter.js'
 
 
 
@@ -32,6 +33,7 @@ app.disable('x-powered-by')
 app.set('port',port);
 
 app.use('/api/users',userRoutes)
+app.use('/api/drivers',driverRoutes)
 
 try {
     client.connect();
