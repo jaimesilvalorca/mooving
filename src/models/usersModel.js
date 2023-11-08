@@ -16,10 +16,6 @@ const userSchema = new mongoose.Schema({
         type:String,
         default: 'user'
     },
-    // session_token:{
-    //     type:String,
-    //     default: null
-    // },
     created_at: {
         type: Date,
         default: Date.now,
