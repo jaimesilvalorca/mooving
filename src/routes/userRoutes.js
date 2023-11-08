@@ -10,5 +10,4 @@ router.get('/',getUsers)
 router.post('/login', Login);
 router.post('/createwithimage',upload.fields([{name:'image',maxCount:1}]),RegisterWithImage)
 
-
 export default router
