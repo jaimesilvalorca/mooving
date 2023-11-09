@@ -14,6 +14,9 @@ export const Login = async (req, res) => {
   try {
     const driver = await DriverModel.findOne({ email })
 
+    const carDriver = await CarModel.findOne(driver.car)
+    console.log(carDriver)
+
     if (!driver) {
       return res.status(401).json({ message: 'Usuario no encontrado' })
     }
@@ -33,7 +36,12 @@ export const Login = async (req, res) => {
         email: driver.email,
         phone: driver.phone,
         image: driver.image,
-        car: driver.car,
+        car: {
+          make:carDriver.make,
+          modelCar:carDriver.modelCar,
+          year:carDriver.year,
+          plate:carDriver.plate
+        },
         session_token: `JWT ${token}`,
       }
       return res.json({
@@ -120,7 +128,13 @@ export const RegisterWithImage = async (req, res) => {
         lastname: driver.lastname,
         phone: driver.phone,
         image: downloadURL,
-        car: carForNewDriver._id,
+        car: {
+          id:carForNewDriver._id,
+          make:carForNewDriver.make,
+          modelCar:carForNewDriver.modelCar,
+          year:carForNewDriver.year,
+          plate:carForNewDriver.plate
+        },
         password: driver.password,
       }).save()
 
@@ -133,7 +147,13 @@ export const RegisterWithImage = async (req, res) => {
         lastname: newDriver.lastname,
         phone: newDriver.phone,
         image: downloadURL,
-        car: newDriver.car._id,
+        car: {
+          id:newDriver._id,
+          make:newDriver.make,
+          modelCar:newDriver.modelCar,
+          year:newDriver.year,
+          plate:newDriver.plate
+        },
         password: newDriver.password,
         session_token: `JWT ${token}`
       }

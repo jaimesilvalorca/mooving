@@ -7,7 +7,7 @@ const carSchema = new mongoose.Schema({
         type: String,
         default: null
     },
-    model: {
+    modelCar: {
         type: String,
         default: null
     },
