@@ -8,6 +8,8 @@ import userRoutes from './routes/userRoutes.js'
 import passport from 'passport';
 import passportConfig from './config/passportConfig.js';
 import driverRoutes from './routes/driverRouter.js'
+import handlebars from "express-handlebars";
+import passwordRouter from "./routes/passwordRouter.js"
 
 
 
@@ -19,6 +21,10 @@ const port = process.env.PORT || 3000;
 
 let client = new MongoClient()
 mongoose.set('strictQuery', false)
+
+app.engine('handlebars', handlebars.engine())
+app.set('views', './src/views')
+app.set('view engine', 'handlebars')
 
 
 app.use(passport.initialize());
@@ -34,6 +40,7 @@ app.set('port',port);
 
 app.use('/api/users',userRoutes)
 app.use('/api/drivers',driverRoutes)
+app.use('/reset-password',passwordRouter)
 
 try {
     client.connect();
