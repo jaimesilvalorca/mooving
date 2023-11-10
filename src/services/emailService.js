@@ -4,7 +4,6 @@ import mailgen from 'mailgen';
 const emailService = {
   sendPasswordResetEmail: async (toEmail, resetLink) => {
     const MailGenerator = new mailgen({
-      theme: 'default',
       product: {
         name: 'Mooving',
         link: 'http://www.mooving.cl'
@@ -13,9 +12,11 @@ const emailService = {
 
     const emailContent = {
       body: {
-        intro: '¡Hola!',
+        signature: false,
+        greeting: false,
+        intro:'',
         action: {
-          instructions: 'Hemos recibido una solicitud para restablecer la contraseña de tu cuenta.',
+          instructions: 'Hola!, Hemos recibido una solicitud para restablecer la contraseña de tu cuenta.',
           button: {
             text: 'Restablecer contraseña',
             link: resetLink
