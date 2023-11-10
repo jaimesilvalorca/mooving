@@ -1,5 +1,9 @@
-import bycript from 'bcrypt'
+import bcrypt from 'bcrypt'
 
 export const createHash = password =>{
-    return bycript.hashSync(password,bycript.genSaltSync(10))
+    return bcrypt.hashSync(password,bcrypt.genSaltSync(10))
+}
+
+export const isValidPassword = (driver,password)=>{
+    return bcrypt.compareSync(password,driver.password)
 }
