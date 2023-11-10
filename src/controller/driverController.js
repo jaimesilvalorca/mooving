@@ -15,7 +15,6 @@ export const Login = async (req, res) => {
     const driver = await DriverModel.findOne({ email })
 
     const carDriver = await CarModel.findOne(driver.car)
-    console.log(carDriver)
 
     if (!driver) {
       return res.status(401).json({ message: 'Usuario no encontrado' })
