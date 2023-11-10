@@ -8,6 +8,7 @@ import DriverModel from '../models/driverModel.js';
 dotenv.config()
 
 const jwtPrivateKey = process.env.JWT_PRIVATE_KEY
+const server = process.env.SERVER
 
 const resetPasswordController = {
   showResetPasswordPage: (req, res) => {
@@ -25,7 +26,7 @@ const resetPasswordController = {
 
       const token = jwt.sign({ driver }, jwtPrivateKey, { expiresIn: '1h' });
 
-      const resetLink = `http://localhost:3000/reset-password/${token}`;
+      const resetLink = `http://${server}:3000/reset-password/${token}`;
 
       await emailService.sendPasswordResetEmail(driver.email, resetLink); // 
       res.render('reset-password-sent');
