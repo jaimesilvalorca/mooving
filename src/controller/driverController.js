@@ -127,15 +127,11 @@ export const RegisterWithImage = async (req, res) => {
         lastname: driver.lastname,
         phone: driver.phone,
         image: downloadURL,
-        car: {
-          id:carForNewDriver._id,
-          make:carForNewDriver.make,
-          modelCar:carForNewDriver.modelCar,
-          year:carForNewDriver.year,
-          plate:carForNewDriver.plate
-        },
+        car: carForNewDriver._id,
         password: driver.password,
       }).save()
+
+      const carDriver = await CarModel.findOne(newDriver.car)
 
       console.log(newDriver)
 
@@ -147,11 +143,11 @@ export const RegisterWithImage = async (req, res) => {
         phone: newDriver.phone,
         image: downloadURL,
         car: {
-          id:newDriver._id,
-          make:newDriver.make,
-          modelCar:newDriver.modelCar,
-          year:newDriver.year,
-          plate:newDriver.plate
+          id:carDriver._id,
+          make:carDriver.make,
+          modelCar:carDriver.modelCar,
+          year:carDriver.year,
+          plate:carDriver.plate
         },
         password: newDriver.password,
         session_token: `JWT ${token}`
