@@ -174,7 +174,11 @@ export const getDrivers = async (req, res) => {
   try {
     const drivers = await DriverModel.find().lean().exec();
 
-    return res.json(drivers)
+    return res.json({
+      sucess: true,
+      message:'Entrega de todos los registros',
+      data:drivers
+    })
   } catch (error) {
     res.status(500).json({
       success: false,
@@ -185,3 +189,95 @@ export const getDrivers = async (req, res) => {
   }
 
 }
+
+export const UpdateDriverWithImage = async (req, res) => {
+  try {
+    const driverData = req.body;
+    const image = req.files.image;
+
+    if (image && image.length > 0) {
+      const { downloadURL } = await uploadFile(image[0]);
+
+      const existingDriver = await DriverModel.findOne({ email: driverData.email });
+
+      if (!existingDriver) {
+        return res.status(404).json({
+          success: false,
+          message: 'No se encontró el conductor con el correo electrónico proporcionado',
+        });
+      }
+
+      existingDriver.name = driverData.name || existingDriver.name;
+      existingDriver.lastname = driverData.lastname || existingDriver.lastname;
+      existingDriver.phone = driverData.phone || existingDriver.phone;
+      existingDriver.image = downloadURL || existingDriver.image;
+
+      await existingDriver.save();
+
+      const updatedData = {
+        name: existingDriver.name,
+        lastname: existingDriver.lastname,
+        phone: existingDriver.phone,
+        image: existingDriver.image,
+      };
+
+      return res.status(200).json({
+        success: true,
+        message: 'El conductor se actualizó correctamente',
+        data: updatedData,
+      });
+    } else {
+      return res.status(400).json({
+        success: false,
+        message: 'Se requiere una imagen para actualizar el conductor',
+      });
+    }
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({
+      success: false,
+      message: 'Hubo un error al procesar la solicitud de actualización del conductor',
+      error: err,
+    });
+  }
+};
+
+
+export const UpdateDriverWithoutImage = async (req, res) => {
+  try {
+    const driverData = req.body;
+    const existingDriver = await DriverModel.findOne({ email: driverData.email });
+
+    if (!existingDriver) {
+      return res.status(404).json({
+        success: false,
+        message: 'No se encontró el conductor con el correo electrónico proporcionado',
+      });
+    }
+
+    existingDriver.name = driverData.name || existingDriver.name;
+    existingDriver.lastname = driverData.lastname || existingDriver.lastname;
+    existingDriver.phone = driverData.phone || existingDriver.phone;
+
+    await existingDriver.save();
+
+    const updatedData = {
+      name: existingDriver.name,
+      lastname: existingDriver.lastname,
+      phone: existingDriver.phone,
+    };
+
+    return res.status(200).json({
+      success: true,
+      message: 'El conductor se actualizó correctamente',
+      data: updatedData,
+    });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({
+      success: false,
+      message: 'Hubo un error al procesar la solicitud de actualización del conductor',
+      error: err,
+    });
+  }
+};
