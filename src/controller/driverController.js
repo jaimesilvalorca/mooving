@@ -197,6 +197,7 @@ export const UpdateDriverWithImage = async (req, res) => {
 
     console.log(driver)
 
+
     if (image && image.length > 0) {
       const { downloadURL } = await uploadFile(image[0]);
 
@@ -250,6 +251,7 @@ export const UpdateDriverWithoutImage = async (req, res) => {
     const driver = req.body;
     const existingDriver = await DriverModel.findOne({ email: driver.email });
 
+    console.log(driver)
     if (!existingDriver) {
       return res.status(404).json({
         success: false,
