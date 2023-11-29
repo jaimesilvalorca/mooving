@@ -224,7 +224,7 @@ export const UpdateDriverWithImage = async (req, res) => {
         image: existingDriver.image,
       };
 
-      return res.status(200).json({
+      return res.status(201).json({
         success: true,
         message: 'El conductor se actualizó correctamente',
         data: data,
@@ -271,7 +271,7 @@ export const UpdateDriverWithoutImage = async (req, res) => {
       phone: existingDriver.phone,
     };
 
-    return res.status(200).json({
+    return res.status(201).json({
       success: true,
       message: 'El conductor se actualizó correctamente',
       data: data,
