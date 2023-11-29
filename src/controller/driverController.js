@@ -192,13 +192,15 @@ export const getDrivers = async (req, res) => {
 
 export const UpdateDriverWithImage = async (req, res) => {
   try {
-    const driverData = req.body;
+    const driver = req.body;
     const image = req.files.image;
+
+    console.log(driver)
 
     if (image && image.length > 0) {
       const { downloadURL } = await uploadFile(image[0]);
 
-      const existingDriver = await DriverModel.findOne({ email: driverData.email });
+      const existingDriver = await DriverModel.findOne({ email: driver.email });
 
       if (!existingDriver) {
         return res.status(404).json({
@@ -207,14 +209,14 @@ export const UpdateDriverWithImage = async (req, res) => {
         });
       }
 
-      existingDriver.name = driverData.name || existingDriver.name;
-      existingDriver.lastname = driverData.lastname || existingDriver.lastname;
-      existingDriver.phone = driverData.phone || existingDriver.phone;
+      existingDriver.name = driver.name || existingDriver.name;
+      existingDriver.lastname = driver.lastname || existingDriver.lastname;
+      existingDriver.phone = driver.phone || existingDriver.phone;
       existingDriver.image = downloadURL || existingDriver.image;
 
       await existingDriver.save();
 
-      const updatedData = {
+      const data = {
         name: existingDriver.name,
         lastname: existingDriver.lastname,
         phone: existingDriver.phone,
@@ -224,7 +226,7 @@ export const UpdateDriverWithImage = async (req, res) => {
       return res.status(200).json({
         success: true,
         message: 'El conductor se actualizó correctamente',
-        data: updatedData,
+        data: data,
       });
     } else {
       return res.status(400).json({
@@ -245,8 +247,8 @@ export const UpdateDriverWithImage = async (req, res) => {
 
 export const UpdateDriverWithoutImage = async (req, res) => {
   try {
-    const driverData = req.body;
-    const existingDriver = await DriverModel.findOne({ email: driverData.email });
+    const driver = req.body;
+    const existingDriver = await DriverModel.findOne({ email: driver.email });
 
     if (!existingDriver) {
       return res.status(404).json({
@@ -255,13 +257,13 @@ export const UpdateDriverWithoutImage = async (req, res) => {
       });
     }
 
-    existingDriver.name = driverData.name || existingDriver.name;
-    existingDriver.lastname = driverData.lastname || existingDriver.lastname;
-    existingDriver.phone = driverData.phone || existingDriver.phone;
+    existingDriver.name = driver.name || existingDriver.name;
+    existingDriver.lastname = driver.lastname || existingDriver.lastname;
+    existingDriver.phone = driver.phone || existingDriver.phone;
 
     await existingDriver.save();
 
-    const updatedData = {
+    const data = {
       name: existingDriver.name,
       lastname: existingDriver.lastname,
       phone: existingDriver.phone,
@@ -270,7 +272,7 @@ export const UpdateDriverWithoutImage = async (req, res) => {
     return res.status(200).json({
       success: true,
       message: 'El conductor se actualizó correctamente',
-      data: updatedData,
+      data: data,
     });
   } catch (err) {
     console.error(err);
