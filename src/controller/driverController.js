@@ -217,12 +217,7 @@ export const UpdateDriverWithImage = async (req, res) => {
 
       await existingDriver.save();
 
-      const data = {
-        name: existingDriver.name,
-        lastname: existingDriver.lastname,
-        phone: existingDriver.phone,
-        image: existingDriver.image,
-      };
+      const data = await DriverModel.findOne({email:driver.email})
 
       return res.status(201).json({
         success: true,
@@ -265,11 +260,7 @@ export const UpdateDriverWithoutImage = async (req, res) => {
 
     await existingDriver.save();
 
-    const data = {
-      name: existingDriver.name,
-      lastname: existingDriver.lastname,
-      phone: existingDriver.phone,
-    };
+    const data = await DriverModel.findOne({email:driver.email})
 
     return res.status(201).json({
       success: true,
