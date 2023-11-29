@@ -8,7 +8,7 @@ router.post('/create', Register)
 router.get('/', getDrivers)
 router.post('/login', Login);
 router.post('/createwithimage', upload.fields([{ name: 'image', maxCount: 1 }]), RegisterWithImage)
-router.poest('/updatewithimage',upload.fields([{ name: 'image', maxCount: 1 }]),UpdateDriverWithImage)
+router.post('/updatewithimage',upload.fields([{ name: 'image', maxCount: 1 }]),UpdateDriverWithImage)
 router.put('/updatewithoutimage',UpdateDriverWithoutImage)
 
 
