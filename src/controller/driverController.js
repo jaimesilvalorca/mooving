@@ -227,7 +227,7 @@ export const UpdateDriverWithImage = async (req, res) => {
       return res.status(201).json({
         success: true,
         message: 'El conductor se actualizó correctamente',
-        data: data,
+        data: data
       });
     } else {
       return res.status(400).json({
@@ -274,7 +274,7 @@ export const UpdateDriverWithoutImage = async (req, res) => {
     return res.status(201).json({
       success: true,
       message: 'El conductor se actualizó correctamente',
-      data: data,
+      data: data
     });
   } catch (err) {
     console.error(err);
