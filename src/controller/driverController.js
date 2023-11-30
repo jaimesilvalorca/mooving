@@ -278,7 +278,7 @@ export const UpdateDriverWithoutImage = async (req, res) => {
     await existingDriver.save();
 
     const driverData = await DriverModel.findOne({email:driver.email})
-    const driverCar = await CarModel.findOne({_id:driver.car})
+    const driverCar = await CarModel.findOne({_id:driverData.car})
 
     const data = {
       id: driverData._id,
