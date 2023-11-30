@@ -9,8 +9,8 @@ router.post('/create', Register)
 router.get('/', getDrivers)
 router.post('/login', Login);
 router.post('/createwithimage', upload.fields([{ name: 'image', maxCount: 1 }]), RegisterWithImage)
-router.put('/updatewithimage',passport.authenticate('jwt', { session: false }),upload.fields([{ name: 'image', maxCount: 1 }]),UpdateDriverWithImage)
-router.put('/updatewithoutimage',passport.authenticate('jwt', { session: false }),UpdateDriverWithoutImage)
+router.put('/updatewithimage',upload.fields([{ name: 'image', maxCount: 1 }]),UpdateDriverWithImage)
+router.put('/updatewithoutimage',UpdateDriverWithoutImage)
 
 
 

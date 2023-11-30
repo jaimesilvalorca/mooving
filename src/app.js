@@ -27,8 +27,8 @@ app.set('views', './src/views')
 app.set('view engine', 'handlebars')
 
 
-app.use(passport.initialize());
 passportConfig(passport);
+app.use(passport.initialize());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({
