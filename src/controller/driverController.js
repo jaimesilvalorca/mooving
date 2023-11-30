@@ -26,7 +26,7 @@ export const Login = async (req, res) => {
       const token = jwt.sign({ id: driver._id, email: driver.email }, process.env.JWT_PRIVATE_KEY, {
         expiresIn: '24h',
       });
-      
+
 
       const data = {
         id: driver._id,
@@ -36,10 +36,10 @@ export const Login = async (req, res) => {
         phone: driver.phone,
         image: driver.image,
         car: {
-          make:carDriver.make,
-          modelCar:carDriver.modelCar,
-          year:carDriver.year,
-          plate:carDriver.plate
+          make: carDriver.make,
+          modelCar: carDriver.modelCar,
+          year: carDriver.year,
+          plate: carDriver.plate
         },
         session_token: `JWT ${token}`,
       }
@@ -65,7 +65,7 @@ export const Register = async (req, res) => {
     const existingDriver = await DriverModel.findOne({ email: driver.email })
     const carForNewDriver = await CarModel.create({})
     driver.car = carForNewDriver._id
-    
+
 
     if (existingDriver) {
       console.log("Conductor ya registrado")
@@ -143,11 +143,11 @@ export const RegisterWithImage = async (req, res) => {
         phone: newDriver.phone,
         image: downloadURL,
         car: {
-          id:carDriver._id,
-          make:carDriver.make,
-          modelCar:carDriver.modelCar,
-          year:carDriver.year,
-          plate:carDriver.plate
+          id: carDriver._id,
+          make: carDriver.make,
+          modelCar: carDriver.modelCar,
+          year: carDriver.year,
+          plate: carDriver.plate
         },
         password: newDriver.password,
         session_token: `JWT ${token}`
@@ -176,8 +176,8 @@ export const getDrivers = async (req, res) => {
 
     return res.json({
       sucess: true,
-      message:'Entrega de todos los registros',
-      data:drivers
+      message: 'Entrega de todos los registros',
+      data: drivers
     })
   } catch (error) {
     res.status(500).json({
@@ -217,9 +217,9 @@ export const UpdateDriverWithImage = async (req, res) => {
 
       await existingDriver.save();
 
-      const driverData = await DriverModel.findOne({email:driver.email})
-      const driverCar = await CarModel.findOne({_id:driverData.car})
-  
+      const driverData = await DriverModel.findOne({ email: driver.email })
+      const driverCar = await CarModel.findOne({ _id: driverData.car })
+
       const data = {
         id: driverData._id,
         email: driverData.email,
@@ -228,13 +228,14 @@ export const UpdateDriverWithImage = async (req, res) => {
         phone: driverData.phone,
         image: driverData.image,
         car: {
-          id:driverCar._id,
-          make:driverCar.make,
-          modelCar:driverCar.modelCar,
-          year:driverCar.year,
-          plate:driverCar.plate
-        
-      }}
+          id: driverCar._id,
+          make: driverCar.make,
+          modelCar: driverCar.modelCar,
+          year: driverCar.year,
+          plate: driverCar.plate
+        },
+        session_token: driver.session_token
+      }
 
       return res.status(201).json({
         success: true,
@@ -277,8 +278,8 @@ export const UpdateDriverWithoutImage = async (req, res) => {
 
     await existingDriver.save();
 
-    const driverData = await DriverModel.findOne({email:driver.email})
-    const driverCar = await CarModel.findOne({_id:driverData.car})
+    const driverData = await DriverModel.findOne({ email: driver.email })
+    const driverCar = await CarModel.findOne({ _id: driverData.car })
 
     const data = {
       id: driverData._id,
@@ -288,13 +289,14 @@ export const UpdateDriverWithoutImage = async (req, res) => {
       phone: driverData.phone,
       image: driverData.image,
       car: {
-        id:driverCar._id,
-        make:driverCar.make,
-        modelCar:driverCar.modelCar,
-        year:driverCar.year,
-        plate:driverCar.plate
-      
-    }}
+        id: driverCar._id,
+        make: driverCar.make,
+        modelCar: driverCar.modelCar,
+        year: driverCar.year,
+        plate: driverCar.plate
+      },
+      session_token:driver.session_token
+    }
 
     return res.status(201).json({
       success: true,
