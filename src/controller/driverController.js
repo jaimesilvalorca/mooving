@@ -217,7 +217,24 @@ export const UpdateDriverWithImage = async (req, res) => {
 
       await existingDriver.save();
 
-      const data = await DriverModel.findOne({email:driver.email})
+      const driverData = await DriverModel.findOne({email:driver.email})
+      const driverCar = await CarModel.findOne({_id:driver.car})
+
+      const data = {
+        id: driverData._id,
+        email: driverData.email,
+        name: driverData.name,
+        lastname: driverData.lastname,
+        phone: driverData.phone,
+        image: driverData.image,
+        car: {
+          id:driverCar._id,
+          make:driverCar.make,
+          modelCar:driverCar.modelCar,
+          year:driverCar.year,
+          plate:driverCar.plate
+        
+      }}
 
       return res.status(201).json({
         success: true,
@@ -260,7 +277,24 @@ export const UpdateDriverWithoutImage = async (req, res) => {
 
     await existingDriver.save();
 
-    const data = await DriverModel.findOne({email:driver.email})
+    const driverData = await DriverModel.findOne({email:driver.email})
+    const driverCar = await CarModel.findOne({_id:driver.car})
+
+    const data = {
+      id: driverData._id,
+      email: driverData.email,
+      name: driverData.name,
+      lastname: driverData.lastname,
+      phone: driverData.phone,
+      image: driverData.image,
+      car: {
+        id:driverCar._id,
+        make:driverCar.make,
+        modelCar:driverCar.modelCar,
+        year:driverCar.year,
+        plate:driverCar.plate
+      
+    }}
 
     return res.status(201).json({
       success: true,
