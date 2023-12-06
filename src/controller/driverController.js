@@ -41,6 +41,7 @@ export const Login = async (req, res) => {
           year: carDriver.year,
           plate: carDriver.plate
         },
+        con:driver.con,
         session_token: `JWT ${token}`,
       }
       return res.json({
@@ -129,6 +130,7 @@ export const RegisterWithImage = async (req, res) => {
         image: downloadURL,
         car: carForNewDriver._id,
         password: driver.password,
+        con:driver.con,
       }).save()
 
       const carDriver = await CarModel.findOne(newDriver.car)
@@ -150,6 +152,7 @@ export const RegisterWithImage = async (req, res) => {
           plate: carDriver.plate
         },
         password: newDriver.password,
+        con:newDriver.con,
         session_token: `JWT ${token}`
       }
 
@@ -234,6 +237,7 @@ export const UpdateDriverWithImage = async (req, res) => {
           year: driverCar.year,
           plate: driverCar.plate
         },
+        con:driverData.con,
         session_token: driver.session_token
       }
 
@@ -295,6 +299,7 @@ export const UpdateDriverWithoutImage = async (req, res) => {
         year: driverCar.year,
         plate: driverCar.plate
       },
+      con:driverData.con,
       session_token:driver.session_token
     }
 

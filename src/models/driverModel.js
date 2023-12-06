@@ -1,4 +1,5 @@
 import mongoose, { Schema } from "mongoose";
+import { bool } from "sharp";
 
 const driverCollection = "drivers";
 
@@ -31,7 +32,11 @@ const driverSchema = new mongoose.Schema({
     updated_at: {
         type: Date,
         default: Date.now,
-    }
+    },
+    con:{
+        type:Boolean,
+        default:false
+    },
 });
 
 mongoose.set("strictQuery", false);
