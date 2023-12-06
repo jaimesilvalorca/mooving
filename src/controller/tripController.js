@@ -2,13 +2,15 @@ import TripModel from '../models/tripModel.js';
 
 export const createTrip = async (req, res) => {
     try {
-        const { email, origin, destination, latitude, longitude, distance, amount,estado } = req.body;
+        const { email, origin, destination, originLatitude, originLongitude,destinationLatitude, destinationLongitude, distance, amount,estado } = req.body;
         const newTrip = new TripModel({
             email,
             origin,
             destination,
-            latitude,
-            longitude,
+            originLatitude, 
+            originLongitude,
+            destinationLatitude, 
+            destinationLongitude,
             distance,
             amount,
             estado
@@ -18,8 +20,10 @@ export const createTrip = async (req, res) => {
             email: newTrip.email,
             origin: newTrip.origin,
             destination: newTrip.destination,
-            latitude: newTrip.latitude,
-            longitude: newTrip.longitude,
+            originLatitude: newTrip.originLatitude, 
+            originLongitude: newTrip.originLongitude,
+            destinationLatitude: newTrip.destinationLatitude, 
+            destinationLongitude: newTrip.destinationLongitude,
             distance: newTrip.distance,
             amount: newTrip.amount,
             estado: newTrip.estado
