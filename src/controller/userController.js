@@ -160,3 +160,110 @@ export const getUsers = async (req, res) => {
   }
 
 }
+
+export const UpdateUserWithImage = async (req, res) => {
+  try {
+    const dirver = req.body;
+    const image = req.files.image;
+
+    console.log(dirver)
+
+
+    if (image && image.length > 0) {
+      const { downloadURL } = await uploadFile(image[0]);
+
+      const existingUser = await UserModel.findOne({ email: user.email });
+
+      if (!existingUser) {
+        return res.status(404).json({
+          success: false,
+          message: 'No se encontró el conductor con el correo electrónico proporcionado',
+        });
+      }
+
+      existingUser.name = user.name || existingUser.name;
+      existingUser.lastname = user.lastname || existingUser.lastname;
+      existingUser.phone = user.phone || existingUser.phone;
+      existingUser.image = downloadURL || existingUser.image;
+
+      await existingUser.save();
+
+      const userData = await UserModel.findOne({ email: user.email })
+
+      const data = {
+        id: userData._id,
+        email: userData.email,
+        name: userData.name,
+        lastname: userData.lastname,
+        phone: userData.phone,
+        image: userData.image,
+        session_token: user.session_token
+      }
+
+      return res.status(201).json({
+        success: true,
+        message: 'El usuario se actualizó correctamente',
+        data: data
+      });
+    } else {
+      return res.status(400).json({
+        success: false,
+        message: 'Se requiere una imagen para actualizar el usuario',
+      });
+    }
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({
+      success: false,
+      message: 'Hubo un error al procesar la solicitud de actualización del conductor',
+      error: err,
+    });
+  }
+};
+
+
+export const UpdateUserWithoutImage = async (req, res) => {
+  try {
+    const user = req.body;
+    const existingUser = await UserModel.findOne({ email: user.email });
+
+    console.log(user)
+    if (!existingUser) {
+      return res.status(404).json({
+        success: false,
+        message: 'No se encontró el conductor con el correo electrónico proporcionado',
+      });
+    }
+
+    existingUser.name = user.name || existingUser.name;
+    existingUser.lastname = user.lastname || existingUser.lastname;
+    existingUser.phone = user.phone || existingUser.phone;
+
+    await existingUser.save();
+
+    const userData = await UserModel.findOne({ email: user.email })
+
+    const data = {
+      id: userData._id,
+      email: userData.email,
+      name: userData.name,
+      lastname: userData.lastname,
+      phone: userData.phone,
+      image: userData.image,
+      session_token:user.session_token
+    }
+
+    return res.status(201).json({
+      success: true,
+      message: 'El conductor se actualizó correctamente',
+      data: data
+    });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({
+      success: false,
+      message: 'Hubo un error al procesar la solicitud de actualización del conductor',
+      error: err,
+    });
+  }
+};
