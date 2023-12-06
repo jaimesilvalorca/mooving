@@ -9,7 +9,8 @@ const tripSchema = new mongoose.Schema({
     latitude: Number,
     longitude: Number,
     distance:String,
-    amount:Number
+    amount:Number,
+    estado:String,
 });
 
 mongoose.set("strictQuery", false);
