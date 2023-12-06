@@ -329,7 +329,7 @@ export const UpdateDriverConnectionStatus = async (req, res) => {
         message: 'No se encontró el conductor con el correo electrónico proporcionado',
       });
     }
-    
+
     existingDriver.con = !existingDriver.con;
 
     await existingDriver.save();
@@ -369,4 +369,51 @@ export const UpdateDriverConnectionStatus = async (req, res) => {
     });
   }
 };
+
+
+export const getConnectedDrivers = async (req, res) => {
+  try {
+
+    const connectedDrivers = await DriverModel.find({ con: true }).lean().exec();
+
+    const driversData = await Promise.all(
+      connectedDrivers.map(async (driver) => {
+        const driverCar = await CarModel.findOne({ _id: driver.car });
+
+        return {
+          id: driver._id,
+          email: driver.email,
+          name: driver.name,
+          lastname: driver.lastname,
+          phone: driver.phone,
+          image: driver.image,
+          car: {
+            id: driverCar._id,
+            make: driverCar.make,
+            modelCar: driverCar.modelCar,
+            year: driverCar.year,
+            plate: driverCar.plate,
+          },
+          con: driver.con,
+          session_token: driver.session_token,
+        };
+      })
+    );
+
+    return res.json({
+      success: true,
+      message: 'Lista de conductores conectados',
+      data: driversData,
+    });
+  } catch (error) {
+
+    console.error(error);
+    return res.status(500).json({
+      success: false,
+      message: 'Hubo un error al obtener la lista de conductores conectados',
+      error: error,
+    });
+  }
+};
+
 
