@@ -317,3 +317,56 @@ export const UpdateDriverWithoutImage = async (req, res) => {
     });
   }
 };
+
+export const UpdateDriverConnectionStatus = async (req, res) => {
+  try {
+    const { email } = req.body;
+    const existingDriver = await DriverModel.findOne({ email });
+
+    if (!existingDriver) {
+      return res.status(404).json({
+        success: false,
+        message: 'No se encontró el conductor con el correo electrónico proporcionado',
+      });
+    }
+    
+    existingDriver.con = !existingDriver.con;
+
+    await existingDriver.save();
+
+    const driverData = await DriverModel.findOne({ email });
+    const driverCar = await CarModel.findOne({ _id: driverData.car });
+
+    const data = {
+      id: driverData._id,
+      email: driverData.email,
+      name: driverData.name,
+      lastname: driverData.lastname,
+      phone: driverData.phone,
+      image: driverData.image,
+      car: {
+        id: driverCar._id,
+        make: driverCar.make,
+        modelCar: driverCar.modelCar,
+        year: driverCar.year,
+        plate: driverCar.plate,
+      },
+      con: existingDriver.con,
+      session_token: driverData.session_token,
+    };
+
+    return res.status(200).json({
+      success: true,
+      message: 'Se actualizó correctamente el estado de conexión del conductor',
+      data: data,
+    });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({
+      success: false,
+      message: 'Hubo un error al procesar la solicitud de actualización del conductor',
+      error: err,
+    });
+  }
+};
+
