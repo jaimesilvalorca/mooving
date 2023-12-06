@@ -42,7 +42,7 @@ app.set('port',port);
 app.use('/api/users',userRoutes)
 app.use('/api/drivers',driverRoutes)
 app.use('/reset-password',passwordRouter)
-app.use('/api/trips')
+app.use('/api/trips',tripRouter)
 
 try {
     client.connect();
