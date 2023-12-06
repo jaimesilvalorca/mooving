@@ -11,6 +11,7 @@ export const createTrip = async (req, res) => {
             longitude,
             distance,
             amount,
+            estado
         });
 
         const data = {
@@ -20,7 +21,8 @@ export const createTrip = async (req, res) => {
             latitude: newTrip.latitude,
             longitude: newTrip.longitude,
             distance: newTrip.distance,
-            amount: newTrip.amount
+            amount: newTrip.amount,
+            estado: newTrip.estado
         }
 
         const savedTrip = await newTrip.save();
