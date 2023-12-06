@@ -10,6 +10,7 @@ import passportConfig from './config/passportConfig.js';
 import driverRoutes from './routes/driverRouter.js'
 import handlebars from "express-handlebars";
 import passwordRouter from "./routes/passwordRouter.js"
+import tripRouter from './routes/tripRouter.js'
 
 
 
@@ -41,6 +42,7 @@ app.set('port',port);
 app.use('/api/users',userRoutes)
 app.use('/api/drivers',driverRoutes)
 app.use('/reset-password',passwordRouter)
+app.use('/api/trips')
 
 try {
     client.connect();
