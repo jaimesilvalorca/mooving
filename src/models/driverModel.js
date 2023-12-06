@@ -1,5 +1,4 @@
 import mongoose, { Schema } from "mongoose";
-import { bool } from "sharp";
 
 const driverCollection = "drivers";
 
