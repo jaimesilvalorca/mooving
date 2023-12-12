@@ -245,3 +245,4 @@ export const fetchPendingTrip = async (req, res) => {
       });
     }
   };
+  

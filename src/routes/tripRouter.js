@@ -4,6 +4,7 @@ import { acceptTrip, cancelTrip, completeTrip, createTrip, fetchPendingTrip, get
 
 const router = Router();
 
+router.get('/completed', getCompletedTrips);
 router.post('/create',createTrip)
 router.put('/putRequest',updateTripDriver)
 router.get('/pending/:driverEmail', fetchPendingTrip);
@@ -11,7 +12,6 @@ router.put('/cancel/:tripId', cancelTrip);
 router.put('/accept/:tripId', acceptTrip);
 router.put('/complete/:tripId', completeTrip);
 router.get('/:tripId', getTripById);
-router.get('/completed', getCompletedTrips);
 
 
 export default router
