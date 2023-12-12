@@ -419,23 +419,24 @@ export const getConnectedDrivers = async (req, res) => {
 
 
 export const updateCar = async (req, res) => {
-  const carId = req.params.carId;
-  const updatedCarData = req.body;
-
   try {
-    const updatedDriver = await Driver.findByIdAndUpdate(
+    const { carId } = req.params;
+    const { make, modelCar, year, plate } = req.body;
+    const car = await CarModel.findByIdAndUpdate(
       carId,
-      { $set: { 'car': updatedCarData } },
-      { new: true }
+      { make, modelCar, year, plate },
+      { new: true, runValidators: true }
     );
 
-    if (!updatedDriver) {
-      return res.status(404).json({ message: 'Driver not found' });
+    if (!car) {
+      return res.status(404).send('Car not found');
     }
 
-    res.json(updatedDriver);
+    res.json(car);
   } catch (error) {
     console.error('Error updating car:', error);
-    res.status(500).json({ message: 'Internal Server Error' });
+    res.status(500).send('Error updating car');
   }
 };
+
+export default updateCar;
