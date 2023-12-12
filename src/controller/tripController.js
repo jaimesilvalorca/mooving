@@ -119,7 +119,7 @@ export const fetchPendingTrip = async (req, res) => {
     const { tripId } = req.params;
   
     try {
-      const canceledTrip = await Trip.findByIdAndUpdate(tripId, { estado: 'cancelado' }, { new: true });
+      const canceledTrip = await TripModel.findByIdAndUpdate(tripId, { estado: 'cancelado' }, { new: true });
   
       if (!canceledTrip) {
         return res.status(404).json({
