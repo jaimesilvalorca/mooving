@@ -86,7 +86,7 @@ export const updateTripDriver = async (req, res) => {
 
 export const fetchPendingTrip = async (req, res) => {
     try {
-      const { driverEmail } = req.body;
+      const { driverEmail } = req.params;
   
       const pendingTrip = await TripModel.findOne({
         driverEmail: driverEmail,
