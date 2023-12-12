@@ -49,38 +49,39 @@ export const createTrip = async (req, res) => {
 };
 
 export const updateTripDriver = async (req, res) => {
-  const { userEmail, driverEmail, estado } = req.body;
+    try {
+        const { userEmail } = req.body
+        const { driverEmail,estado } = req.body;
 
-  try {
-    // Buscar el viaje en estado solicitado del usuario específico
-    const trip = await TripModel.findOne({
-      userEmail,
-      driverEmail,
-      estado: 'solicitado',
-    });
+        console.log(estado)
 
-    if (!trip) {
-      return res.status(404).json({
-        success: false,
-        message: 'Viaje no encontrado en estado solicitado',
-      });
+
+        const updatedTrip = await TripModel.findOneAndUpdate(
+            { userEmail: userEmail },
+            { driverEmail: driverEmail,estado:estado},
+            { new: true }
+        );
+
+        if (!updatedTrip) {
+            return res.status(404).json({
+                success: false,
+                message: 'Viaje no encontrado',
+            });
+        }
+
+        res.status(200).json({
+            success: true,
+            message: 'Conductor asociado al viaje correctamente',
+            data: updatedTrip,
+        });
+    } catch (error) {
+        console.error('Error al asociar el conductor al viaje:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Error interno del servidor',
+            error: error,
+        });
     }
-    trip.estado = estado;
-    await trip.save();
-
-    res.status(200).json({
-      success: true,
-      message: 'Viaje actualizado correctamente',
-      data: trip,
-    });
-  } catch (error) {
-    console.error('Error en la actualización del viaje:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Error interno del servidor',
-      error: error,
-    });
-  }
 };
 
 export const fetchPendingTrip = async (req, res) => {
