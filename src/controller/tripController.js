@@ -178,55 +178,58 @@ export const fetchPendingTrip = async (req, res) => {
     const { tripId } = req.params;
   
     try {
-      const completedTrip = await TripModel.findByIdAndUpdate(tripId, { estado: 'completado' }, { new: true });
+        const completedTrip = await TripModel.findByIdAndUpdate(tripId, { estado: 'completado' }, { new: true });
   
-      if (!completedTrip) {
-        return res.status(404).json({
-          success: false,
-          message: 'Viaje no encontrado',
+        if (!completedTrip) {
+            return res.status(404).json({
+                success: false,
+                message: 'Viaje no encontrado',
+            });
+        }
+  
+        const backupTrip = new CompleteTripModel({
+            userEmail: completedTrip.userEmail,
+            driverEmail: completedTrip.driverEmail,
+            origin: completedTrip.origin,
+            destination: completedTrip.destination,
+            originLatitude: completedTrip.originLatitude,
+            originLongitude: completedTrip.originLongitude,
+            destinationLatitude: completedTrip.destinationLatitude,
+            destinationLongitude: completedTrip.destinationLongitude,
+            distance: completedTrip.distance,
+            amount: completedTrip.amount,
+            estado: 'completado',
         });
-      }
   
-      const backupTrip = new CompleteTripModel({
-        userEmail: completedTrip.userEmail,
-        driverEmail: completedTrip.driverEmail,
-        origin: completedTrip.origin,
-        destination: completedTrip.destination,
-        originLatitude: completedTrip.originLatitude,
-        originLongitude: completedTrip.originLongitude,
-        destinationLatitude: completedTrip.destinationLatitude,
-        destinationLongitude: completedTrip.destinationLongitude,
-        distance: completedTrip.distance,
-        amount: completedTrip.amount,
-        estado: 'completado',
-      });
+        try {
+            await backupTrip.save();
+          
+            await TripModel.findByIdAndRemove(tripId);
+        } catch (saveError) {
+            console.error('Error al guardar el respaldo del viaje:', saveError);
+            res.status(500).json({
+                success: false,
+                message: 'Error interno del servidor al guardar el respaldo',
+                error: saveError.message,
+            });
+            return;
+        }
   
-      try {
-        await backupTrip.save();
-      } catch (saveError) {
-        console.error('Error al guardar el respaldo del viaje:', saveError);
-        res.status(500).json({
-          success: false,
-          message: 'Error interno del servidor al guardar el respaldo',
-          error: saveError.message,
+        res.status(200).json({
+            success: true,
+            message: 'Viaje completado y respaldado correctamente',
+            data: completedTrip,
         });
-        return;
-      }
-  
-      res.status(200).json({
-        success: true,
-        message: 'Viaje completado y respaldado correctamente',
-        data: completedTrip,
-      });
     } catch (error) {
-      console.error('Error al completar y respaldar el viaje:', error);
-      res.status(500).json({
-        success: false,
-        message: 'Error interno del servidor',
-        error: error.message,
-      });
+        console.error('Error al completar y respaldar el viaje:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Error interno del servidor',
+            error: error.message,
+        });
     }
-  };
+};
+
   
 
   export const getTripById = async (req, res) => {
