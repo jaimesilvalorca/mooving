@@ -52,10 +52,12 @@ export const updateTripDriver = async (req, res) => {
     try {
         const { userEmail } = req.body;  // Obtén userEmail del cuerpo de la solicitud
         const { driverEmail } = req.body;
+        const {estado} = req.body
 
         const updatedTrip = await TripModel.findOneAndUpdate(
             { userEmail: userEmail },
-            { driverEmail: driverEmail },
+            { driverEmail: driverEmail},
+            {estado:estado}
             { new: true }
         );
 
