@@ -114,3 +114,31 @@ export const fetchPendingTrip = async (req, res) => {
       });
     }
   };
+
+  export const cancelTrip = async (req, res) => {
+    const { tripId } = req.params;
+  
+    try {
+      const canceledTrip = await Trip.findByIdAndUpdate(tripId, { estado: 'cancelado' }, { new: true });
+  
+      if (!canceledTrip) {
+        return res.status(404).json({
+          success: false,
+          message: 'Viaje no encontrado',
+        });
+      }
+  
+      res.status(200).json({
+        success: true,
+        message: 'Viaje cancelado correctamente',
+        data: canceledTrip,
+      });
+    } catch (error) {
+      console.error('Error al cancelar el viaje:', error);
+      res.status(500).json({
+        success: false,
+        message: 'Error interno del servidor',
+        error: error,
+      });
+    }
+  };
