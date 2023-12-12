@@ -50,7 +50,7 @@ export const createTrip = async (req, res) => {
 
 export const updateTripDriver = async (req, res) => {
     try {
-        const { userEmail } = req.body;  // Obtén userEmail del cuerpo de la solicitud
+        const { userEmail } = req.body
         const { driverEmail,estado } = req.body;
 
         console.log(estado)
@@ -83,3 +83,34 @@ export const updateTripDriver = async (req, res) => {
         });
     }
 };
+
+export const fetchPendingTrip = async (req, res) => {
+    try {
+      const { driverEmail } = req.body;
+  
+      const pendingTrip = await TripModel.findOne({
+        driverEmail: driverEmail,
+        estado: 'enviado',
+      });
+  
+      if (!pendingTrip) {
+        return res.status(404).json({
+          success: false,
+          message: 'Viaje pendiente no encontrado',
+        });
+      }
+  
+      res.status(200).json({
+        success: true,
+        message: 'Viaje pendiente encontrado correctamente',
+        data: pendingTrip,
+      });
+    } catch (error) {
+      console.error('Error al buscar el viaje pendiente:', error);
+      res.status(500).json({
+        success: false,
+        message: 'Error interno del servidor',
+        error: error,
+      });
+    }
+  };
