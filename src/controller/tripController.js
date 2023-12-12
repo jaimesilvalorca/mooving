@@ -229,12 +229,12 @@ export const fetchPendingTrip = async (req, res) => {
 
   export const getCompletedTrips = async (req, res) => {
     try {
-      const completedTrips = await TripModel.find({ estado: 'completado' });
+      const trips = await TripModel.find({ estado: 'completado' });
   
       res.status(200).json({
         success: true,
         message: 'Viajes completados encontrados correctamente',
-        data: completedTrips,
+        data: trips,
       });
     } catch (error) {
       console.error('Error al obtener los viajes completados:', error);

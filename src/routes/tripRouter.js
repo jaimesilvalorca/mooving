@@ -11,7 +11,7 @@ router.put('/cancel/:tripId', cancelTrip);
 router.put('/accept/:tripId', acceptTrip);
 router.put('/complete/:tripId', completeTrip);
 router.get('/:tripId', getTripById);
-router.get('/api/trips/completed', getCompletedTrips);
+router.get('/completed', getCompletedTrips);
 
 
 export default router
