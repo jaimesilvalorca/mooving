@@ -142,3 +142,31 @@ export const fetchPendingTrip = async (req, res) => {
       });
     }
   };
+
+  export const acceptTrip = async (req, res) => {
+    try {
+      const { id } = req.params;
+      const trip = await TripModel.findByIdAndUpdate(id, { estado: 'aceptado' }, { new: true });
+  
+      if (!trip) {
+        return res.status(404).json({
+          success: false,
+          message: 'Viaje no encontrado',
+        });
+      }
+  
+      res.status(200).json({
+        success: true,
+        message: 'Viaje aceptado correctamente',
+        data: trip,
+      });
+    } catch (error) {
+      console.error('Error al aceptar el viaje:', error);
+      res.status(500).json({
+        success: false,
+        message: 'Error interno del servidor',
+        error: error,
+      });
+    }
+  };
+  
