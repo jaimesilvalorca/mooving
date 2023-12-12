@@ -8,4 +8,5 @@ router.post('/', resetPasswordController.sendResetPasswordEmail);
 router.get('/:token', resetPasswordController.showResetPasswordForm);
 router.post('/:token', resetPasswordController.updatePassword);
 
+
 export default router;
