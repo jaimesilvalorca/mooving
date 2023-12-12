@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { acceptTrip, cancelTrip, completeTrip, createTrip, fetchPendingTrip, getCompletedTrips, getTripById, getUserTrips, updateTripDriver } from "../controller/tripController.js";
+import { acceptTrip, cancelTrip, completeTrip, createTrip, fetchPendingTrip, getCompletedTrips, getDriverTrips, getTripById, getUserTrips, updateTripDriver } from "../controller/tripController.js";
 
 
 const router = Router();
@@ -13,6 +13,7 @@ router.put('/accept/:tripId', acceptTrip);
 router.put('/complete/:tripId', completeTrip);
 router.get('/:tripId', getTripById);
 router.get('/completed/:userEmail', getUserTrips);
+router.get('/completed/:driverEmail', getDriverTrips);
 
 
 export default router
