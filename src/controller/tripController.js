@@ -1,3 +1,4 @@
+import CompleteTripModel from '../models/completeTrip.js';
 import TripModel from '../models/tripModel.js';
 
 export const createTrip = async (req, res) => {
@@ -171,33 +172,62 @@ export const fetchPendingTrip = async (req, res) => {
     }
   };
 
+
+  
   export const completeTrip = async (req, res) => {
     const { tripId } = req.params;
   
     try {
-      const canceledTrip = await TripModel.findByIdAndUpdate(tripId, { estado: 'completado' }, { new: true });
+      const completedTrip = await TripModel.findByIdAndUpdate(tripId, { estado: 'completado' }, { new: true });
   
-      if (!canceledTrip) {
+      if (!completedTrip) {
         return res.status(404).json({
           success: false,
           message: 'Viaje no encontrado',
         });
       }
   
+      const backupTrip = new CompleteTripModel({
+        userEmail: completedTrip.userEmail,
+        driverEmail: completedTrip.driverEmail,
+        origin: completedTrip.origin,
+        destination: completedTrip.destination,
+        originLatitude: completedTrip.originLatitude,
+        originLongitude: completedTrip.originLongitude,
+        destinationLatitude: completedTrip.destinationLatitude,
+        destinationLongitude: completedTrip.destinationLongitude,
+        distance: completedTrip.distance,
+        amount: completedTrip.amount,
+        estado: 'completado',
+      });
+  
+      try {
+        await backupTrip.save();
+      } catch (saveError) {
+        console.error('Error al guardar el respaldo del viaje:', saveError);
+        res.status(500).json({
+          success: false,
+          message: 'Error interno del servidor al guardar el respaldo',
+          error: saveError.message,
+        });
+        return;
+      }
+  
       res.status(200).json({
         success: true,
-        message: 'Viaje completado correctamente',
-        data: canceledTrip,
+        message: 'Viaje completado y respaldado correctamente',
+        data: completedTrip,
       });
     } catch (error) {
-      console.error('Error al cancelar el viaje:', error);
+      console.error('Error al completar y respaldar el viaje:', error);
       res.status(500).json({
         success: false,
         message: 'Error interno del servidor',
-        error: error,
+        error: error.message,
       });
     }
   };
+  
 
   export const getTripById = async (req, res) => {
     const { tripId } = req.params;
