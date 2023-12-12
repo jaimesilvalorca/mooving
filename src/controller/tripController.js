@@ -231,13 +231,6 @@ export const fetchPendingTrip = async (req, res) => {
     try {
       const completedTrips = await TripModel.find({ estado: 'completado' });
   
-      if (completedTrips.length === 0) {
-        return res.status(404).json({
-          success: false,
-          message: 'No se encontraron viajes completados',
-        });
-      }
-  
       res.status(200).json({
         success: true,
         message: 'Viajes completados encontrados correctamente',
@@ -248,8 +241,7 @@ export const fetchPendingTrip = async (req, res) => {
       res.status(500).json({
         success: false,
         message: 'Error interno del servidor',
-        error: error,
+        error: error.message,
       });
     }
   };
-  
