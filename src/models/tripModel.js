@@ -3,7 +3,11 @@ import mongoose from "mongoose";
 const tripCollection = "trips";
 
 const tripSchema = new mongoose.Schema({
-    email: String,
+    userEmail: String,
+    driverEmail:{
+        type:String,
+        default:null
+    },
     origin: String,
     destination: String,
     originLatitude:Number, 
