@@ -57,7 +57,7 @@ export const updateTripDriver = async (req, res) => {
         const updatedTrip = await TripModel.findOneAndUpdate(
             { userEmail: userEmail },
             { driverEmail: driverEmail},
-            {estado:estado}
+            {estado:estado},
             { new: true }
         );
 
