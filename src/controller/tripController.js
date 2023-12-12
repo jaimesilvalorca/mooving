@@ -276,3 +276,23 @@ export const fetchPendingTrip = async (req, res) => {
     }
   };
   
+  export const getUserTrips = async (req, res) => {
+    const { userEmail } = req.params;
+  
+    try {
+      const userTrips = await CompleteTripModel.find({ userEmail });
+  
+      res.status(200).json({
+        success: true,
+        message: 'Viajes del usuario obtenidos correctamente',
+        data: userTrips,
+      });
+    } catch (error) {
+      console.error('Error al obtener viajes del usuario:', error);
+      res.status(500).json({
+        success: false,
+        message: 'Error interno del servidor al obtener viajes del usuario',
+        error: error.message,
+      });
+    }
+  };
