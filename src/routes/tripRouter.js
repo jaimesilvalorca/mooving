@@ -13,7 +13,7 @@ router.put('/accept/:tripId', acceptTrip);
 router.put('/complete/:tripId', completeTrip);
 router.get('/:tripId', getTripById);
 router.get('/completed/:userEmail', getUserTrips);
-router.get('/completed/:driverEmail', getDriverTrips);
+router.get('/completeddriver/:driverEmail', getDriverTrips);
 
 
 export default router
