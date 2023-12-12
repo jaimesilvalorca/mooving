@@ -171,4 +171,32 @@ export const fetchPendingTrip = async (req, res) => {
     }
   };
 
+  export const getTripById = async (req, res) => {
+    const { tripId } = req.params;
+  
+    try {
+      const trip = await TripModel.findById(tripId);
+  
+      if (!trip) {
+        return res.status(404).json({
+          success: false,
+          message: 'Viaje no encontrado',
+        });
+      }
+  
+      res.status(200).json({
+        success: true,
+        message: 'Viaje encontrado correctamente',
+        data: trip,
+      });
+    } catch (error) {
+      console.error('Error al obtener el viaje por ID:', error);
+      res.status(500).json({
+        success: false,
+        message: 'Error interno del servidor',
+        error: error,
+      });
+    }
+  };
+
   
