@@ -6,7 +6,7 @@ const router = Router();
 
 router.post('/create',createTrip)
 router.put('/putRequest',updateTripDriver)
-app.get('/pending/:driverEmail', fetchPendingTrip);
+router.get('/pending/:driverEmail', fetchPendingTrip);
 
 
 export default router
