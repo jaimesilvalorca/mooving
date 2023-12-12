@@ -5,19 +5,19 @@ const carCollection = "cars";
 const carSchema = new mongoose.Schema({
     make: {
         type: String,
-        default: null
+        default: ''
     },
     modelCar: {
         type: String,
-        default: null
+        default: ''
     },
     year: {
-        type: Number,
-        default: null
+        type: String,
+        default: ''
     },
     plate: {
         type: String,
-        default: null
+        default: ''
     },
 
     created_at: {
