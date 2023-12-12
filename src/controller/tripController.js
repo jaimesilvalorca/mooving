@@ -48,4 +48,35 @@ export const createTrip = async (req, res) => {
     }
 };
 
-export default { createTrip };
+export const updateTripDriver = async (req, res) => {
+    try {
+        const { userEmail } = req.params;
+        const { driverEmail } = req.body;
+
+        const updatedTrip = await TripModel.findOneAndUpdate(
+            { userEmail: userEmail },
+            { driverEmail: driverEmail },
+            { new: true }
+        );
+
+        if (!updatedTrip) {
+            return res.status(404).json({
+                success: false,
+                message: 'Viaje no encontrado',
+            });
+        }
+
+        res.status(200).json({
+            success: true,
+            message: 'Conductor asociado al viaje correctamente',
+            data: updatedTrip,
+        });
+    } catch (error) {
+        console.error('Error al asociar el conductor al viaje:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Error interno del servidor',
+            error: error,
+        });
+    }
+};
