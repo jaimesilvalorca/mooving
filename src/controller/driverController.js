@@ -36,6 +36,7 @@ export const Login = async (req, res) => {
         phone: driver.phone,
         image: driver.image,
         car: {
+          _id: carDriver._id,
           make: carDriver.make,
           modelCar: carDriver.modelCar,
           year: carDriver.year,
@@ -417,3 +418,24 @@ export const getConnectedDrivers = async (req, res) => {
 };
 
 
+export const updateCar = async (req, res) => {
+  const carId = req.params.carId;
+  const updatedCarData = req.body;
+
+  try {
+    const updatedDriver = await Driver.findByIdAndUpdate(
+      carId,
+      { $set: { 'car': updatedCarData } },
+      { new: true }
+    );
+
+    if (!updatedDriver) {
+      return res.status(404).json({ message: 'Driver not found' });
+    }
+
+    res.json(updatedDriver);
+  } catch (error) {
+    console.error('Error updating car:', error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+};

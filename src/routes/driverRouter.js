@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { Register, RegisterWithImage, Login, getDrivers, UpdateDriverWithImage,UpdateDriverWithoutImage, UpdateDriverConnectionStatus, getConnectedDrivers } from "../controller/driverController.js";
+import { Register, RegisterWithImage, Login, getDrivers, UpdateDriverWithImage,UpdateDriverWithoutImage, UpdateDriverConnectionStatus, getConnectedDrivers, updateCar } from "../controller/driverController.js";
 import { upload } from '../config/multer.js'
 import passport from "passport";
 
@@ -13,6 +13,7 @@ router.put('/updatewithimage',upload.fields([{ name: 'image', maxCount: 1 }]),Up
 router.put('/updatewithoutimage',UpdateDriverWithoutImage)
 router.put('/connected',UpdateDriverConnectionStatus)
 router.get('/getconnected',getConnectedDrivers)
+router.put('/updateCar/:carId',updateCar)
 
 
 
