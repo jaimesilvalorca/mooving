@@ -144,11 +144,12 @@ export const fetchPendingTrip = async (req, res) => {
   };
 
   export const acceptTrip = async (req, res) => {
-    try {
-      const { id } = req.params;
-      const trip = await TripModel.findByIdAndUpdate(id, { estado: 'aceptado' }, { new: true });
+    const { tripId } = req.params;
   
-      if (!trip) {
+    try {
+      const canceledTrip = await TripModel.findByIdAndUpdate(tripId, { estado: 'aceptado' }, { new: true });
+  
+      if (!canceledTrip) {
         return res.status(404).json({
           success: false,
           message: 'Viaje no encontrado',
@@ -158,10 +159,10 @@ export const fetchPendingTrip = async (req, res) => {
       res.status(200).json({
         success: true,
         message: 'Viaje aceptado correctamente',
-        data: trip,
+        data: canceledTrip,
       });
     } catch (error) {
-      console.error('Error al aceptar el viaje:', error);
+      console.error('Error al cancelar el viaje:', error);
       res.status(500).json({
         success: false,
         message: 'Error interno del servidor',
@@ -169,4 +170,5 @@ export const fetchPendingTrip = async (req, res) => {
       });
     }
   };
+
   
