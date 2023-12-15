@@ -1,0 +1,245 @@
+openapi: 3.0.0
+info:
+  title: Descripción de API
+  version: 1.0.0
+paths:
+  /api/trips/completed:
+    get:
+      summary: Obtener todas las viajes completados
+      tags:
+        - Viajes
+      responses:
+        '200':
+          description: Lista de viajes completados
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Trip'
+  /api/trips/create:
+    post:
+      summary: Crear un nuevo viaje
+      tags:
+        - Viajes
+      responses:
+        '200':
+          description: Viaje creado exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  newTrip:
+                    $ref: '#/components/schemas/Trip'
+  /api/trips/putRequest:
+    put:
+      summary: Actualizar información del conductor en el viaje
+      tags:
+        - Viajes
+      responses:
+        '200':
+          description: Información del viaje actualizada exitosamente con el conductor
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  updatedTrip:
+                    $ref: '#/components/schemas/Trip'
+  /api/trips/pending/{driverEmail}:
+    get:
+      summary: Obtener viajes pendientes para un conductor
+      tags:
+        - Viajes
+      parameters:
+        - in: path
+          name: driverEmail
+          required: true
+          schema:
+            type: string
+          description: Correo electrónico del conductor
+      responses:
+        '200':
+          description: Lista de viajes pendientes para el conductor
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Trip'
+  /api/trips/cancel/{tripId}:
+    put:
+      summary: Cancelar un viaje
+      tags:
+        - Viajes
+      parameters:
+        - in: path
+          name: tripId
+          required: true
+          schema:
+            type: string
+          description: ID del viaje
+      responses:
+        '200':
+          description: Viaje cancelado exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  canceledTrip:
+                    $ref: '#/components/schemas/Trip'
+  /api/trips/accept/{tripId}:
+    put:
+      summary: Aceptar un viaje
+      tags:
+        - Viajes
+      parameters:
+        - in: path
+          name: tripId
+          required: true
+          schema:
+            type: string
+          description: ID del viaje
+      responses:
+        '200':
+          description: Viaje aceptado exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  acceptedTrip:
+                    $ref: '#/components/schemas/Trip'
+  /api/trips/complete/{tripId}:
+    put:
+      summary: Completar un viaje
+      tags:
+        - Viajes
+      parameters:
+        - in: path
+          name: tripId
+          required: true
+          schema:
+            type: string
+          description: ID del viaje
+      responses:
+        '200':
+          description: Viaje completado exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  completedTrip:
+                    $ref: '#/components/schemas/Trip'
+  /api/trips/{tripId}:
+    get:
+      summary: Obtener detalles de un viaje por su ID
+      tags:
+        - Viajes
+      parameters:
+        - in: path
+          name: tripId
+          required: true
+          schema:
+            type: string
+          description: ID del viaje
+      responses:
+        '200':
+          description: Detalles del viaje
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Trip'
+  /api/trips/completed/{userEmail}:
+    get:
+      summary: Obtener viajes completados para un usuario
+      tags:
+        - Viajes
+      parameters:
+        - in: path
+          name: userEmail
+          required: true
+          schema:
+            type: string
+          description: Correo electrónico del usuario
+      responses:
+        '200':
+          description: Lista de viajes completados para el usuario
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Trip'
+  /api/trips/completeddriver/{driverEmail}:
+    get:
+      summary: Obtener viajes completados para un conductor
+      tags:
+        - Viajes
+      parameters:
+        - in: path
+          name: driverEmail
+          required: true
+          schema:
+            type: string
+          description: Correo electrónico del conductor
+      responses:
+        '200':
+          description: Lista de viajes completados para el conductor
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Trip'
+components:
+  schemas:
+    Trip:
+      type: object
+      properties:
+        userEmail:
+          type: string
+        driverEmail:
+          type: string
+        origin:
+          type: string
+        destination:
+          type: string
+        originLatitude:
+          type: number
+        originLongitude:
+          type: number
+        destinationLatitude:
+          type: number
+        destinationLongitude:
+          type: number
+        distance:
+          type: string
+        amount:
+          type: number
+        estado:
+          type: string
+      required:
+        - userEmail
+        - origin
+        - destination
+        - originLatitude
+        - originLongitude
+        - destinationLatitude
+        - destinationLongitude
+        - distance
+        - amount
+        - estado

@@ -12,8 +12,24 @@ import handlebars from "express-handlebars";
 import passwordRouter from "./routes/passwordRouter.js"
 import tripRouter from './routes/tripRouter.js'
 import termsRouter from './routes/termsAndConditions.js'
+import swaggerJSDoc from "swagger-jsdoc"
+import SwaggerUiExpress from "swagger-ui-express"
 
 
+
+
+const swaggerOptions = {
+    definition:{
+        openapi: '3.0.1',
+        info:{
+            title: 'Documentación Aplicacion Mooving',
+            description:'Aplicacion mooving presentada en taller de diseño y desarrollo soluciones'
+        }
+    },
+    apis:['./docs/**/*.yaml']
+}
+
+const specs = swaggerJSDoc(swaggerOptions)
 
 
 const app = express()
@@ -45,6 +61,7 @@ app.use('/api/drivers',driverRoutes)
 app.use('/reset-password',passwordRouter)
 app.use('/api/trips',tripRouter)
 app.use('/api/terms',termsRouter)
+app.use('/docs',SwaggerUiExpress.serve,SwaggerUiExpress.setup(specs))
 
 try {
     client.connect();

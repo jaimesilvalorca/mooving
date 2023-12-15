@@ -1,0 +1,28 @@
+openapi: 3.0.0
+info:
+  title: Esquemas de API
+  version: 1.0.0
+components:
+  schemas:
+    Car:
+      type: object
+      properties:
+        make:
+          type: string
+        modelCar:
+          type: string
+        year:
+          type: string
+        plate:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+      required:
+        - make
+        - modelCar
+        - year
+        - plate

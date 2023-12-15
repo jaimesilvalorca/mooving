@@ -1,0 +1,193 @@
+openapi: 3.0.0
+info:
+  title: Descripción de API
+  version: 1.0.0
+paths:
+  /api/drivers/create:
+    post:
+      summary: Crear un nuevo conductor
+      tags:
+        - Conductores
+      responses:
+        '200':
+          description: Conductor creado exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  newDriver:
+                    $ref: '#/components/schemas/Driver'
+  /api/drivers:
+    get:
+      summary: Obtener todos los conductores
+      tags:
+        - Conductores
+      responses:
+        '200':
+          description: Lista de conductores
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Driver'
+  /api/drivers/login:
+    post:
+      summary: Iniciar sesión como conductor
+      tags:
+        - Conductores
+      responses:
+        '200':
+          description: Inicio de sesión exitoso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  message:
+                    type: string
+  /api/drivers/createwithimage:
+    post:
+      summary: Crear un nuevo conductor con imagen
+      tags:
+        - Conductores
+      responses:
+        '200':
+          description: Conductor creado exitosamente con imagen
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  newDriver:
+                    $ref: '#/components/schemas/Driver'
+  /api/drivers/updatewithimage:
+    put:
+      summary: Actualizar conductor con imagen
+      tags:
+        - Conductores
+      responses:
+        '200':
+          description: Conductor actualizado exitosamente con imagen
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  updatedDriver:
+                    $ref: '#/components/schemas/Driver'
+  /api/drivers/updatewithoutimage:
+    put:
+      summary: Actualizar conductor sin imagen
+      tags:
+        - Conductores
+      responses:
+        '200':
+          description: Conductor actualizado exitosamente sin imagen
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  updatedDriver:
+                    $ref: '#/components/schemas/Driver'
+  /api/drivers/connected:
+    put:
+      summary: Actualizar estado de conexión del conductor
+      tags:
+        - Conductores
+      responses:
+        '200':
+          description: Estado de conexión del conductor actualizado exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  updatedDriver:
+                    $ref: '#/components/schemas/Driver'
+  /api/drivers/getconnected:
+    get:
+      summary: Obtener conductores conectados
+      tags:
+        - Conductores
+      responses:
+        '200':
+          description: Lista de conductores conectados
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Driver'
+  /api/drivers/updateCar/{carId}:
+    put:
+      summary: Actualizar información del automóvil del conductor
+      tags:
+        - Conductores
+      parameters:
+        - in: path
+          name: carId
+          required: true
+          schema:
+            type: string
+          description: ID del automóvil
+      responses:
+        '200':
+          description: Información del automóvil del conductor actualizada exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  updatedDriver:
+                    $ref: '#/components/schemas/Driver'
+components:
+  schemas:
+    Driver:
+      type: object
+      properties:
+        email:
+          type: string
+        name:
+          type: string
+        lastname:
+          type: string
+        phone:
+          type: string
+        car:
+          type: string
+        image:
+          type: string
+          default: null
+        password:
+          type: string
+        role:
+          type: string
+          default: user
+        status:
+          type: boolean
+          default: false
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        con:
+          type: boolean

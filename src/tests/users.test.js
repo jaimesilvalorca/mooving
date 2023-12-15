@@ -86,6 +86,39 @@ describe('Prueba de Api Users Route', () => {
           done()
         })
       })
+      it('Prueba de conductores conectados', (done)=>{
+        chai.request(app)
+        .get("/api/drivers/getconnected")
+        .end((error,res)=>{
+          expect(res).to.have.status(200)
+          done()
+        })
+      })
+      after(async()=>{
+        await DriverModel.deleteOne({email:"test2@test.cl"})
+      })    
+    })
+
+    describe('Prueba de Router Trips', () => {
+      it('Prueba de obtención de todos los trip completados Driver y Solicitantes', (done)=>{
+        chai.request(app)
+        .get("/api/trips/completed")
+        .end((error,res)=>{
+            expect(res).to.have.status(200)
+            done()
+        })
+        it('Prueba de conductores conectados', (done) => {
+          chai.request(app)
+            .get("/api/trips/pending")
+            .query({ driverEmail: "jaimesilvalorca@gmail.com" })
+            .end((error, res) => {
+              expect(res).to.have.status(200);
+              done();
+            });
+        });
+
+      
+      })
       after(async()=>{
         await DriverModel.deleteOne({email:"test2@test.cl"})
       })    

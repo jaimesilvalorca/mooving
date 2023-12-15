@@ -1,0 +1,131 @@
+openapi: 3.0.0
+info:
+  title: Descripción de API
+  version: 1.0.0
+paths:
+  /api/users/create:
+    post:
+      summary: Crear un nuevo usuario
+      tags:
+        - Usuarios
+      responses:
+        '200':
+          description: Usuario creado exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  newUser:
+                    $ref: '#/components/schemas/User'
+  /api/users:
+    get:
+      summary: Obtener todos los usuarios
+      tags:
+        - Usuarios
+      responses:
+        '200':
+          description: Lista de usuarios
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+  /api/users/login:
+    post:
+      summary: Iniciar sesión como usuario
+      tags:
+        - Usuarios
+      responses:
+        '200':
+          description: Inicio de sesión exitoso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  message:
+                    type: string
+  /api/users/createwithimage:
+    post:
+      summary: Crear un nuevo usuario con imagen
+      tags:
+        - Usuarios
+      responses:
+        '200':
+          description: Usuario creado exitosamente con imagen
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  newUser:
+                    $ref: '#/components/schemas/User'
+  /api/users/updatewithimage:
+    put:
+      summary: Actualizar usuario con imagen
+      tags:
+        - Usuarios
+      responses:
+        '200':
+          description: Usuario actualizado exitosamente con imagen
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  updatedUser:
+                    $ref: '#/components/schemas/User'
+  /api/users/updatewithoutimage:
+    put:
+      summary: Actualizar usuario sin imagen
+      tags:
+        - Usuarios
+      responses:
+        '200':
+          description: Usuario actualizado exitosamente sin imagen
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  updatedUser:
+                    $ref: '#/components/schemas/User'
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        email:
+          type: string
+        name:
+          type: string
+        lastname:
+          type: string
+        phone:
+          type: string
+        image:
+          type: string
+          default: null
+        password:
+          type: string
+        role:
+          type: string
+          default: user
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
